@@ -62,8 +62,7 @@ Location: `~/.claude/channels/googlechat/access.json`
 {
   "policy": "allowlist",
   "allowFrom": ["user@example.com"],
-  "pendingPairings": {},
-  "textChunkLimit": 4096
+  "pendingPairings": {}
 }
 ```
 

@@ -61,7 +61,6 @@ interface AccessConfig {
   policy: "allowlist" | "pairing" | "open";
   allowFrom: string[];
   pendingPairings: Record<string, { code: string; expires: number }>;
-  textChunkLimit: number;
 }
 
 // =============================================================================
@@ -75,7 +74,6 @@ function loadAccessConfig(): AccessConfig {
     policy: "allowlist",
     allowFrom: [],
     pendingPairings: {},
-    textChunkLimit: MAX_MESSAGE_LENGTH,
   };
 
   if (!existsSync(ACCESS_FILE)) {
@@ -729,37 +727,43 @@ function startPubSubListener(): void {
       const accessConfig = loadAccessConfig();
       const senderEmail = parsed.senderEmail;
 
-      // Workspace Events messages may lack sender email (only user ID).
-      // Allow if email is empty but ce-type is present.
-      if (senderEmail || !attributes["ce-type"]) {
-        const accessResult = checkAccess(senderEmail, accessConfig);
+      // If sender email is unavailable, reject unless policy is "open".
+      // This prevents access control bypass when Workspace Events omits email.
+      if (!senderEmail && accessConfig.policy !== "open") {
+        console.error(
+          "[googlechat] Access denied: sender email unavailable",
+        );
+        message.ack();
+        return;
+      }
 
-        if (!accessResult.allowed) {
-          if (
-            accessResult.reason === "pairing_new" &&
-            accessResult.pairingCode
-          ) {
-            // Send pairing code to the user via Google Chat
+      const accessResult = checkAccess(senderEmail, accessConfig);
+
+      if (!accessResult.allowed) {
+        if (
+          accessResult.reason === "pairing_new" &&
+          accessResult.pairingCode
+        ) {
+          // Send pairing code to the user via Google Chat
+          console.error(
+            `[googlechat] Pairing request from ${senderEmail}, code: ${accessResult.pairingCode}`,
+          );
+          sendMessage(
+            parsed.spaceName,
+            `To connect, run the following command in Claude Code:\n/googlechat:access pair ${accessResult.pairingCode}`,
+            parsed.threadName,
+          ).catch((err) =>
             console.error(
-              `[googlechat] Pairing request from ${senderEmail}, code: ${accessResult.pairingCode}`,
-            );
-            sendMessage(
-              parsed.spaceName,
-              `To connect, run the following command in Claude Code:\n/googlechat:access pair ${accessResult.pairingCode}`,
-              parsed.threadName,
-            ).catch((err) =>
-              console.error(
-                `[googlechat] Failed to send pairing message: ${err}`,
-              ),
-            );
-          } else if (accessResult.reason !== "pairing_pending") {
-            console.error(
-              `[googlechat] Access denied for ${senderEmail}: ${accessResult.reason}`,
-            );
-          }
-          message.ack();
-          return;
+              `[googlechat] Failed to send pairing message: ${err}`,
+            ),
+          );
+        } else if (accessResult.reason !== "pairing_pending") {
+          console.error(
+            `[googlechat] Access denied for ${senderEmail}: ${accessResult.reason}`,
+          );
         }
+        message.ack();
+        return;
       }
 
       console.error(

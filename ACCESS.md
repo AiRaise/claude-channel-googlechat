@@ -52,8 +52,7 @@ Access control is managed via `~/.claude/channels/googlechat/access.json`:
 {
   "policy": "allowlist",
   "allowFrom": ["alice@example.com", "bob@example.com"],
-  "pendingPairings": {},
-  "textChunkLimit": 4096
+  "pendingPairings": {}
 }
 ```
 
