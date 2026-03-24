@@ -1,0 +1,21 @@
+{
+  "name": "claude-channel-googlechat",
+  "version": "0.1.0",
+  "description": "Google Chat channel plugin for Claude Code",
+  "license": "MIT",
+  "type": "module",
+  "bin": "./server.ts",
+  "scripts": {
+    "start": "npx tsx server.ts"
+  },
+  "dependencies": {
+    "@google-cloud/pubsub": "^4.9.0",
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "google-auth-library": "^9.15.1",
+    "googleapis": "^148.0.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
+  }
+}

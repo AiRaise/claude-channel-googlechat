@@ -1,0 +1,32 @@
+node_modules/
+dist/
+*.js
+*.d.ts
+*.js.map
+
+# Credentials (never commit)
+service-account.json
+oauth-token*.json
+access.json
+config.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Debug
+*.log
+/tmp/
+
+# CCAGI (not needed for plugin submission)
+.ccagi.yml
+docs/ccagi/
+docs/LABEL_SYSTEM_GUIDE.md
+playwright/
+playwright.config.ts
+scripts/
+tests/

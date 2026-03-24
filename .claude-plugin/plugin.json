@@ -1,0 +1,6 @@
+{
+  "name": "googlechat",
+  "version": "0.1.0",
+  "description": "Google Chat channel for Claude Code — messaging bridge via Cloud Pub/Sub with built-in access control.",
+  "keywords": ["google-chat", "messaging", "channel", "mcp", "pubsub"]
+}
