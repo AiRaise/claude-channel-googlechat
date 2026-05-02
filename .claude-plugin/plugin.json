@@ -9,9 +9,6 @@
     "url": "https://ai-raise.jp"
   },
   "homepage": "https://github.com/AiRaise/claude-channel-googlechat",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/AiRaise/claude-channel-googlechat.git"
-  },
+  "repository": "https://github.com/AiRaise/claude-channel-googlechat.git",
   "license": "MIT"
 }
