@@ -1,6 +1,17 @@
 {
   "name": "googlechat",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Google Chat channel for Claude Code — messaging bridge via Cloud Pub/Sub with built-in access control.",
-  "keywords": ["google-chat", "messaging", "channel", "mcp", "pubsub"]
+  "keywords": ["google-chat", "messaging", "channel", "mcp", "pubsub"],
+  "author": {
+    "name": "AiRaise",
+    "email": "info@ai-raise.jp",
+    "url": "https://ai-raise.jp"
+  },
+  "homepage": "https://github.com/AiRaise/claude-channel-googlechat",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AiRaise/claude-channel-googlechat.git"
+  },
+  "license": "MIT"
 }
